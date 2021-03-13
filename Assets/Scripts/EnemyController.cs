@@ -11,7 +11,7 @@ public class EnemyController : MonoBehaviour
     public float attackRange;
     public float attackDamage = 10f;
     public float attackDelay;
-    public float _chasePlayerRange;
+    public float chasePlayerRange;
 
     private Transform _enemyTarget;
     private Transform _towerTarget;
@@ -52,7 +52,7 @@ public class EnemyController : MonoBehaviour
 
     void PickTarget()
     {
-        if (_distToPlayer < _chasePlayerRange)
+        if (_distToPlayer < chasePlayerRange)
         {
             ChaseTarget(_enemyTarget);
         }
@@ -135,7 +135,7 @@ public class EnemyController : MonoBehaviour
 
     void Die() 
     {
-        _enemyCounter.GetComponent<RetryMenu>().EnemyCounter();
+        _enemyCounter.GetComponent<GameController>().EnemyCounter();
         Destroy(gameObject);
     }
 

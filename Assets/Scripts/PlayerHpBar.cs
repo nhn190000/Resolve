@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class StatusBarFillUp : MonoBehaviour
+public class PlayerHpBar : MonoBehaviour
 {
     public PlayerController playerHealth;
     public Image fillImage;

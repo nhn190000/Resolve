@@ -5060,15 +5060,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1036272456}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c796d60cfb31c324f875ae50416c10af, type: 3}
+  m_Script: {fileID: 11500000, guid: 730f79a0534258d46bf915d476c55907, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 1313337501}
-  enemyCount: {fileID: 1211043676}
-  enemyToDefeat: 20
-  towerHealth: {fileID: 1300217306}
+  playerObject: {fileID: 1313337501}
+  towerObject: {fileID: 1300217306}
+  enemyCountText: {fileID: 1211043676}
   retryImage: {fileID: 1636049415}
   winImage: {fileID: 37690186}
+  enemyToDefeat: 20
 --- !u!1 &1060273574
 GameObject:
   m_ObjectHideFlags: 0

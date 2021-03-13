@@ -3,14 +3,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-public class RetryMenu : MonoBehaviour
+public class GameController : MonoBehaviour
 {
-    public PlayerController playerHealth;
-    public TMP_Text enemyCount;
-    public int enemyToDefeat = 5;
-    public Tower towerHealth;
+    public PlayerController playerObject;
+    public Tower towerObject;
+    public TMP_Text enemyCountText;
     public Image retryImage;
     public Image winImage;
+    public int enemyToDefeat = 5;
 
     private bool _isRetryMenuActive = false;
     private bool _isWinMenuActive = false;
@@ -18,7 +18,7 @@ public class RetryMenu : MonoBehaviour
 
     private void Start()
     {
-        enemyCount.text = "Enemies to defeat: " + enemyToDefeat.ToString();
+        enemyCountText.text = "Enemies to defeat: " + enemyToDefeat.ToString();
     }
 
     void Update()
@@ -38,7 +38,7 @@ public class RetryMenu : MonoBehaviour
         if (enemyToDefeat <= 0)
         {
             winImage.gameObject.SetActive(true);
-            playerHealth.enabled = false;
+            playerObject.enabled = false;
             _isWinMenuActive = true;
             _isMenuActive = true;
         }
@@ -46,7 +46,7 @@ public class RetryMenu : MonoBehaviour
 
     void ShowRetryMenu()
     {
-        if (playerHealth.currentHealth <= 0 || towerHealth.currentTowerHealth <= 0)
+        if (playerObject.currentHealth <= 0 || towerObject.currentTowerHealth <= 0)
         {
             retryImage.gameObject.SetActive(true);
             _isRetryMenuActive = true;
@@ -59,7 +59,7 @@ public class RetryMenu : MonoBehaviour
         enemyToDefeat--;
         if (enemyToDefeat >= 0)
         {
-            enemyCount.text = "Enemies to defeat: " + enemyToDefeat.ToString();
+            enemyCountText.text = "Enemies to defeat: " + enemyToDefeat.ToString();
         }
     }
 
