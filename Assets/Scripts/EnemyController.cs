@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {   
     public Transform enemyAttackPosition;
     public Animator animator;
+    public ParticleSystem deathParticle;
     public LayerMask whatIsTarget;
     public float enemySpeed;
     public float stoppingDistance;
@@ -135,6 +137,7 @@ public class EnemyController : MonoBehaviour
 
     void Die() 
     {
+        Instantiate(deathParticle, transform.position, Quaternion.identity);
         _enemyCounter.GetComponent<GameController>().EnemyCounter();
         Destroy(gameObject);
     }

@@ -259,6 +259,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyAttackPosition: {fileID: 2119840386}
   animator: {fileID: 95000012403032898}
+  deathParticle: {fileID: 4825896319859259364, guid: e36f26712f60e9244b015432dc9941c2,
+    type: 3}
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 1024
