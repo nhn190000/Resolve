@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
         ProcessInput();
         AnimateFlip();
         CheckDie();
+        //git change test
     }
 
     void FixedUpdate() 
