@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public Transform attackPosition;
     public Transform superAttackPosition;
+    public ParticleSystem beam;
     public float moveSpeed;
     public float jumpForce;
     public float groundCheckRadius = 0.2f;
@@ -45,7 +47,6 @@ public class PlayerController : MonoBehaviour
         ProcessInput();
         AnimateFlip();
         CheckDie();
-        //git change test
     }
 
     void FixedUpdate() 
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && _isGrounded && Time.time >= _nextAttackTime && currentResolvePoint >= 0.5f)
         {
             Attack(_superAttack);
+            StartCoroutine(EnableBeam(0.2f));
             _nextAttackTime = Time.time + 1f / attackDelay;
             currentResolvePoint -= 0.5f;
             Collider2D[] enemiesToSuperDamage = Physics2D.OverlapBoxAll(superAttackPosition.position, new Vector2(superAttackRangeX, superAttackRangeY), 0, whatIsEnemies);
@@ -140,6 +142,13 @@ public class PlayerController : MonoBehaviour
         {
             currentResolvePoint += 0.1f;
         }
+    }
+
+    IEnumerator EnableBeam(float waitTime)
+    {
+        beam.Play();
+        yield return new WaitForSeconds(waitTime);
+        beam.Stop(beam, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public void PlayerTakeDamage(float damage)
