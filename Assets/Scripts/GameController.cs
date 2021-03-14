@@ -2,15 +2,19 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
 
 public class GameController : MonoBehaviour
 {
     public PlayerController playerObject;
     public Tower towerObject;
     public TMP_Text enemyCountText;
-    public Image retryImage;
-    public Image winImage;
+    public Image retryMenu;
+    public Image winMenu;
+    public Image pauseMenu;
     public int enemyToDefeat = 5;
+
+    public static bool GameIsPaused = false;
 
     private bool _isRetryMenuActive = false;
     private bool _isWinMenuActive = false;
@@ -31,13 +35,39 @@ public class GameController : MonoBehaviour
         {
             ShowWinMenu();
         }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && !_isMenuActive)
+        {
+            if (GameIsPaused)
+            {
+                Resume();
+            }
+            else
+            {
+                Pause();
+            }
+        }
+    }
+
+    void Pause()
+    {
+        pauseMenu.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
+
+    public void Resume()
+    {
+        pauseMenu.gameObject.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
     }
 
     void ShowWinMenu()
     {
         if (enemyToDefeat <= 0)
         {
-            winImage.gameObject.SetActive(true);
+            winMenu.gameObject.SetActive(true);
             playerObject.enabled = false;
             _isWinMenuActive = true;
             _isMenuActive = true;
@@ -48,7 +78,7 @@ public class GameController : MonoBehaviour
     {
         if (playerObject.currentHealth <= 0 || towerObject.currentTowerHealth <= 0)
         {
-            retryImage.gameObject.SetActive(true);
+            retryMenu.gameObject.SetActive(true);
             _isRetryMenuActive = true;
             _isMenuActive = true;
         }
@@ -70,6 +100,7 @@ public class GameController : MonoBehaviour
 
     public void MainMenuButton()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
 
