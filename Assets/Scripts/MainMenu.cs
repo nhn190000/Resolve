@@ -6,6 +6,7 @@ public class MainMenu : MonoBehaviour
 {
     public Image options;
     public Image menu;
+    public Image howToPlay;
     public void StartGameButton()
     {
         SceneManager.LoadScene("MainScene");
@@ -20,6 +21,18 @@ public class MainMenu : MonoBehaviour
     public void BackButton()
     {
         options.gameObject.SetActive(false);
+        menu.gameObject.SetActive(true);
+    }
+
+    public void HowToPlay()
+    {
+        menu.gameObject.SetActive(false);
+        howToPlay.gameObject.SetActive(true);
+    }
+
+    public void HowToPlayBackButton()
+    {
+        howToPlay.gameObject.SetActive(false);
         menu.gameObject.SetActive(true);
     }
 
