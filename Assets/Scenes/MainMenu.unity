@@ -1084,7 +1084,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 726624575}
   m_Direction: 0
   m_MinValue: -80
-  m_MaxValue: 0
+  m_MaxValue: 20
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -2039,20 +2039,14 @@ MonoBehaviour:
   m_Placeholder: {fileID: 0}
   m_ItemText: {fileID: 1574386929}
   m_ItemImage: {fileID: 0}
-  m_Value: 5
+  m_Value: 2
   m_Options:
     m_Options:
-    - m_Text: VERY LOW
-      m_Image: {fileID: 0}
     - m_Text: LOW
       m_Image: {fileID: 0}
     - m_Text: MEDIUM
       m_Image: {fileID: 0}
     - m_Text: HIGH
-      m_Image: {fileID: 0}
-    - m_Text: VERY HIGH
-      m_Image: {fileID: 0}
-    - m_Text: ULTRA
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
