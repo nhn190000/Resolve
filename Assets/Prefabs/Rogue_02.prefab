@@ -1522,6 +1522,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyAttackPosition: {fileID: 7174930352956607751}
   animator: {fileID: 95000010530816694}
+  deathParticle: {fileID: 4825896319859259364, guid: e36f26712f60e9244b015432dc9941c2,
+    type: 3}
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 1024
@@ -1531,7 +1533,7 @@ MonoBehaviour:
   attackRange: 0.47
   attackDamage: 5
   attackDelay: 0.5
-  _chasePlayerRange: 5
+  chasePlayerRange: 5
 --- !u!1 &1000013442129446
 GameObject:
   m_ObjectHideFlags: 0

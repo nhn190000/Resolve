@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {   
     public Transform enemyAttackPosition;
     public Animator animator;
+    public ParticleSystem deathParticle;
     public LayerMask whatIsTarget;
     public float enemySpeed;
     public float stoppingDistance;
@@ -11,7 +13,7 @@ public class EnemyController : MonoBehaviour
     public float attackRange;
     public float attackDamage = 10f;
     public float attackDelay;
-    public float _chasePlayerRange;
+    public float chasePlayerRange;
 
     private Transform _enemyTarget;
     private Transform _towerTarget;
@@ -22,7 +24,9 @@ public class EnemyController : MonoBehaviour
     private float _distToPlayer;
     private float _currentHealth;
     private float _nextAttackTime = 0f;
-    
+    private bool _isStun = false;
+    private float _knockBackForceFromHit = 5f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +56,7 @@ public class EnemyController : MonoBehaviour
 
     void PickTarget()
     {
-        if (_distToPlayer < _chasePlayerRange)
+        if (_distToPlayer < chasePlayerRange)
         {
             ChaseTarget(_enemyTarget);
         }
@@ -90,14 +94,24 @@ public class EnemyController : MonoBehaviour
 
     void Move()
     {
-        if (_distToPlayer > stoppingDistance)
+        if (!_isStun)
         {
-            _rigidBody.velocity = new Vector2(_moveDirection, _rigidBody.velocity.y);
+            if (_distToPlayer > stoppingDistance)
+            {
+                _rigidBody.velocity = new Vector2(_moveDirection, _rigidBody.velocity.y);
+            }
+            else
+            {
+                _rigidBody.velocity = Vector2.zero;
+            }
         }
-        else
-        {
-            _rigidBody.velocity = Vector2.zero;
-        }
+        
+    }
+
+    IEnumerator StunTimer (float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        _isStun = false;
     }
 
     void AnimateFlip()
@@ -123,6 +137,16 @@ public class EnemyController : MonoBehaviour
     {
         _currentHealth -= damage;
         animator.SetTrigger("GetHit");
+        _isStun = true;
+        if (_enemyTarget.transform.position.x > transform.position.x)
+        {
+            _rigidBody.velocity = new Vector2(-_knockBackForceFromHit, _rigidBody.velocity.y);
+        }
+        else
+        {
+            _rigidBody.velocity = new Vector2(_knockBackForceFromHit, _rigidBody.velocity.y);
+        }
+        StartCoroutine(StunTimer(2f));
     }
 
     void CheckDie()
@@ -135,7 +159,8 @@ public class EnemyController : MonoBehaviour
 
     void Die() 
     {
-        _enemyCounter.GetComponent<RetryMenu>().EnemyCounter();
+        Instantiate(deathParticle, transform.position, Quaternion.identity);
+        _enemyCounter.GetComponent<GameController>().EnemyCounter();
         Destroy(gameObject);
     }
 

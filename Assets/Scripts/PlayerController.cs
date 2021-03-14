@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -9,6 +10,7 @@ public class PlayerController : MonoBehaviour
     public Animator animator;
     public Transform attackPosition;
     public Transform superAttackPosition;
+    public ParticleSystem beam;
     public float moveSpeed;
     public float jumpForce;
     public float groundCheckRadius = 0.2f;
@@ -19,6 +21,7 @@ public class PlayerController : MonoBehaviour
     public float attackDamage = 10f;
     public float superAttackDamage = 50f;
     public float maxHealth = 100f;
+    public float headJumpForce;
     [HideInInspector] public float currentHealth;
     public float initialResolvePoint = 0f;
     [HideInInspector] public float currentResolvePoint;
@@ -32,6 +35,7 @@ public class PlayerController : MonoBehaviour
     private int _normalAttack = 1;
     private int _superAttack = 2;
     private bool _isDead = false;
+    private bool _isHeadJumping = false;
 
     void Start()
     {
@@ -45,7 +49,6 @@ public class PlayerController : MonoBehaviour
         ProcessInput();
         AnimateFlip();
         CheckDie();
-        //git change test
     }
 
     void FixedUpdate() 
@@ -81,6 +84,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire2") && _isGrounded && Time.time >= _nextAttackTime && currentResolvePoint >= 0.5f)
         {
             Attack(_superAttack);
+            StartCoroutine(EnableBeam(0.2f));
             _nextAttackTime = Time.time + 1f / attackDelay;
             currentResolvePoint -= 0.5f;
             Collider2D[] enemiesToSuperDamage = Physics2D.OverlapBoxAll(superAttackPosition.position, new Vector2(superAttackRangeX, superAttackRangeY), 0, whatIsEnemies);
@@ -116,7 +120,7 @@ public class PlayerController : MonoBehaviour
 
         if (_isJumping && _isGrounded)
         {
-            _rigidBody.AddForce(new Vector2(0f, jumpForce));
+            _rigidBody.AddForce(new Vector2(_rigidBody.velocity.x, jumpForce));
         }
 
         _isJumping = false;
@@ -140,6 +144,13 @@ public class PlayerController : MonoBehaviour
         {
             currentResolvePoint += 0.1f;
         }
+    }
+
+    IEnumerator EnableBeam(float waitTime)
+    {
+        beam.Play();
+        yield return new WaitForSeconds(waitTime);
+        beam.Stop(beam, ParticleSystemStopBehavior.StopEmittingAndClear);
     }
 
     public void PlayerTakeDamage(float damage)
@@ -171,5 +182,24 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPosition.position, attackRange);
         Gizmos.DrawWireCube(superAttackPosition.position, new Vector3(superAttackRangeX, superAttackRangeY, 1));
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && _isHeadJumping == false)
+        {
+            if (_isGrounded == false && transform.position.y > 0.5f)
+            {
+                _rigidBody.AddForce(new Vector2(_rigidBody.velocity.x, headJumpForce));
+                _isHeadJumping = true;
+                StartCoroutine(HeadJumpReset(1f));
+            }
+        }
+    }
+
+    IEnumerator HeadJumpReset(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        _isHeadJumping = false;
     }
 }
