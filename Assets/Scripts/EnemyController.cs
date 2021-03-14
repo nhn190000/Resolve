@@ -24,7 +24,9 @@ public class EnemyController : MonoBehaviour
     private float _distToPlayer;
     private float _currentHealth;
     private float _nextAttackTime = 0f;
-    
+    private bool _isStun = false;
+    private float _knockBackForceFromHit = 5f;
+
 
     // Start is called before the first frame update
     void Start()
@@ -92,14 +94,24 @@ public class EnemyController : MonoBehaviour
 
     void Move()
     {
-        if (_distToPlayer > stoppingDistance)
+        if (!_isStun)
         {
-            _rigidBody.velocity = new Vector2(_moveDirection, _rigidBody.velocity.y);
+            if (_distToPlayer > stoppingDistance)
+            {
+                _rigidBody.velocity = new Vector2(_moveDirection, _rigidBody.velocity.y);
+            }
+            else
+            {
+                _rigidBody.velocity = Vector2.zero;
+            }
         }
-        else
-        {
-            _rigidBody.velocity = Vector2.zero;
-        }
+        
+    }
+
+    IEnumerator StunTimer (float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+        _isStun = false;
     }
 
     void AnimateFlip()
@@ -125,6 +137,16 @@ public class EnemyController : MonoBehaviour
     {
         _currentHealth -= damage;
         animator.SetTrigger("GetHit");
+        _isStun = true;
+        if (_enemyTarget.transform.position.x > transform.position.x)
+        {
+            _rigidBody.velocity = new Vector2(-_knockBackForceFromHit, _rigidBody.velocity.y);
+        }
+        else
+        {
+            _rigidBody.velocity = new Vector2(_knockBackForceFromHit, _rigidBody.velocity.y);
+        }
+        StartCoroutine(StunTimer(2f));
     }
 
     void CheckDie()

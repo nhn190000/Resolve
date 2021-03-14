@@ -6775,7 +6775,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1668774317
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -7590852279806083750, guid: 6c5b6bb890d604a4d8ed60f0c23a8e89,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -8019,7 +8019,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1668774317
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -7590852279806083750, guid: 6c5b6bb890d604a4d8ed60f0c23a8e89,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -9528,7 +9528,7 @@ GameObject:
   m_Component:
   - component: {fileID: 980337799}
   - component: {fileID: 980337800}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: groundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -11421,6 +11421,7 @@ MonoBehaviour:
   attackDamage: 10
   superAttackDamage: 50
   maxHealth: 100
+  headJumpForce: 300
   currentHealth: 0
   initialResolvePoint: 0
   currentResolvePoint: 0
