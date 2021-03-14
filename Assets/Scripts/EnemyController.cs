@@ -146,7 +146,7 @@ public class EnemyController : MonoBehaviour
         {
             _rigidBody.velocity = new Vector2(_knockBackForceFromHit, _rigidBody.velocity.y);
         }
-        StartCoroutine(StunTimer(2f));
+        StartCoroutine(StunTimer(1.5f));
     }
 
     void CheckDie()
